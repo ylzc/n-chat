@@ -1,0 +1,29 @@
+{
+  "name": "@n-chat/common",
+  "version": "0.0.0",
+  "author": "yel <yel@sucsoft.com>",
+  "license": "ISC",
+  "publishConfig": {
+    "registry": "http://192.168.80.51:7001/"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "build": "tsc -w"
+  },
+  "dependencies": {
+    "@nestjs/common": "^6.9.0",
+    "@nestjs/core": "^6.9.0",
+    "@nestjs/platform-socket.io": "^6.9.0",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
+    "socket.io-redis": "^5.2.0",
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.0",
+    "rxjs": "^6.5.3",
+    "@nestjs/websockets": "^6.7.2"
+  },
+  "devDependencies": {
+    "@types/socket.io": "^2.1.4",
+    "@types/socket.io-client": "^1.4.32"
+  }
+}

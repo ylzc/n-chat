@@ -28,7 +28,6 @@
     "@nestjs/platform-express": "^6.7.2",
     "@nestjs/platform-socket.io": "^6.7.2",
     "@nestjs/websockets": "^6.7.2",
-    "@types/socket.io": "^2.1.4",
     "express": "^4.17.1",
     "lodash": "^4.17.15",
     "passport": "^0.4.0",
@@ -49,9 +48,11 @@
     "class-validator": "^0.11.0",
     "class-transformer": "^0.2.3",
     "@nestjsx/crud": "^4.2.0",
-    "@nestjsx/crud-typeorm": "^4.2.0"
+    "@nestjsx/crud-typeorm": "^4.2.0",
+    "@n-chat/common": "0.0.0"
   },
   "devDependencies": {
+    "@types/socket.io": "^2.1.4",
     "@types/uuid": "^3.4.6",
     "@nestjs/cli": "^6.9.0",
     "@nestjs/schematics": "^6.7.0",
