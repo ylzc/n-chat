@@ -7,7 +7,7 @@ import {
 import { Server, Socket } from 'socket.io';
 import { RedisAdapter } from 'socket.io-redis';
 
-@WebSocketGateway({ transports: ['websocket'] })
+@WebSocketGateway({transports: ['websocket']})
 export class ChatGateway implements OnGatewayConnection, OnGatewayInit, OnGatewayDisconnect {
 
 	@Inject(JwtService)

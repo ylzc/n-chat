@@ -1,10 +1,11 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { RegisterUserDto } from "@n-chat/common";
+import { Body, Controller, Get, Post } from '@nestjs/common';
 
 @Controller('user')
 export class UserController {
 
 	@Post('register')
-	register() {
+	register(@Body() data: RegisterUserDto) {
 	}
 
 	@Get('list')

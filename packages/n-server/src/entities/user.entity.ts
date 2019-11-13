@@ -21,6 +21,9 @@ export class UserEntity extends BaseEntity {
 	@Exclude()
 	password: string;
 
+	@Exclude()
+	salt: string;
+
 	@ManyToMany(
 		type => SpaceEntity,
 		space => space.members,

@@ -7,7 +7,7 @@ export class CreateSpaceDto {
 	@Expose()
 	name: string;
 
-	@IsString({ each: true })
+	@IsString({each: true})
 	@IsArray()
 	@IsOptional()
 	@Expose()
