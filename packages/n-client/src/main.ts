@@ -3,12 +3,14 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import axios from 'axios';
 
 Vue.config.productionTip = false;
-Vue.prototype.$form = Form;
+
+axios.defaults.baseURL = 'http://127.0.0.1:3000';
 
 new Vue({
 	router,
 	store,
-	render: (h: any) => h(App),
-} as any).$mount('#app');
+	render: (h) => h(App),
+}).$mount('#app');

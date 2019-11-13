@@ -1,14 +1,17 @@
 <template>
 	<div class="home">
-		<a-form class="home-form" :form="form" @submit="handleSubmit">
-			<a-form-item label="Note" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
-				<a-input v-decorator="rules[0]" v-model=""/>
+		<a-form class="home-form">
+			<a-form-item label="account" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+				<a-input v-model="model.account"/>
 			</a-form-item>
-			<a-form-item label="Note" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
-				<a-input v-decorator="rules[1]"/>
+			<a-form-item label="name" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+				<a-input v-model="model.name"/>
+			</a-form-item>
+			<a-form-item label="password" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
+				<a-input v-model="model.password"/>
 			</a-form-item>
 			<a-form-item :wrapper-col="{ span: 12, offset: 5 }">
-				<a-button type="primary" html-type="submit">
+				<a-button type="primary" @click="submit">
 					Submit
 				</a-button>
 			</a-form-item>
@@ -19,7 +22,8 @@
 <script lang="ts">
 	import { Component, Vue } from "vue-property-decorator";
 	import { Button, Form, Input } from 'ant-design-vue'
-	import { RegisterUserDto } from "@n-chat/common";
+	import { RegisterUserDto } from "@n-chat/common/dtos/register-user.dto";
+	import axios from 'axios';
 
 	@Component({
 		components: {
@@ -33,16 +37,11 @@
 
 		model = new RegisterUserDto();
 
-		rules = [
-			['username', {rules: [{required: true, message: 'Please input your note!'}]}],
-			['password', {rules: [{required: true, message: 'Please input your note!'}]}]
-		];
-
-		form = this.$form.createForm(this);
-
-		handleSubmit() {
-
+		async submit() {
+			console.log(this.model);
+			await axios.post('/register', this.model)
 		}
+
 	}
 </script>
 <style lang="scss" scoped>
@@ -56,6 +55,7 @@
 	}
 
 	.home-form {
-		width: 200px;
+		width: 300px;
+		background-color: #fff;
 	}
 </style>

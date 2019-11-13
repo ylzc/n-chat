@@ -4,10 +4,6 @@ import { Body, Controller, Get, Post } from '@nestjs/common';
 @Controller('user')
 export class UserController {
 
-	@Post('register')
-	register(@Body() data: RegisterUserDto) {
-	}
-
 	@Get('list')
 	list() {
 	}

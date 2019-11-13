@@ -1,8 +1,30 @@
-import { Injectable } from '@nestjs/common';
+import { LoginDto } from "@n-chat/common";
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { JwtService } from "@nestjs/jwt";
+import { UserService } from "./user.service";
 
 @Injectable()
 export class AppService {
-	getHello(): string {
-		return 'Hello World!';
+	@Inject(JwtService)
+	private readonly jwtService: JwtService;
+	@Inject(UserService)
+	private readonly userService: UserService;
+
+	async check(data: LoginDto) {
+		const user = await this.userService.findByAccount(data.account);
+		if (user && user.password === data.password) {
+			return {
+				access_token: this.jwtService
+					.sign(
+						{
+							id: 1,
+						},
+						{
+							expiresIn: 3600 * 10,
+						},
+					),
+			};
+		}
+		return new HttpException('登录失败', HttpStatus.UNAUTHORIZED)
 	}
 }

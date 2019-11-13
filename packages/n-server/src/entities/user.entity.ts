@@ -12,7 +12,7 @@ export class UserEntity extends BaseEntity {
 	id: string;
 
 	@Index()
-	@Column()
+	@Column({unique: true})
 	account: string;
 
 	@Column()
