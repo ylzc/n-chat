@@ -17,7 +17,7 @@ export class AppService {
 				access_token: this.jwtService
 					.sign(
 						{
-							id: 1,
+							id: user.id,
 						},
 						{
 							expiresIn: 3600 * 10,
@@ -25,6 +25,6 @@ export class AppService {
 					),
 			};
 		}
-		return new HttpException('登录失败', HttpStatus.UNAUTHORIZED)
+		throw new HttpException('登录失败', HttpStatus.UNAUTHORIZED)
 	}
 }

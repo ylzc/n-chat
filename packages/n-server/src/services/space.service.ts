@@ -4,11 +4,10 @@ import { TransformClassToPlain } from 'class-transformer';
 import { Like, Repository } from 'typeorm';
 import { CreateSpaceDto, ListSpaceDto } from '@n-chat/common';
 import { SpaceEntity } from '../entities/space.entity';
-import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { UserEntity } from '../entities/user.entity';
 
 @Injectable()
-export class SpaceService extends TypeOrmCrudService<SpaceEntity> {
+export class SpaceService {
 
 	@InjectRepository(SpaceEntity)
 	protected readonly repo: Repository<SpaceEntity>;

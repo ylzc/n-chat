@@ -5,9 +5,9 @@ export class LoginDto {
 
 	@IsString()
 	@Expose()
-	account: string;
+	account!: string;
 
 	@IsString()
 	@Expose()
-	password: string;
+	password!: string;
 }

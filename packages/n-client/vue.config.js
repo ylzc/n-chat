@@ -1,12 +1,6 @@
 module.exports = {
-	'transpileDependencies': [
-		'vuetify',
-	],
+	'transpileDependencies': [],
 	pluginOptions: {
-		// 'electronBuilder': {
-		// 	nodeModulesPath: '../../node_modules',
-		// 	outputDir:'../../dist'
-		// },
 	},
 	css: {
 		loaderOptions: {

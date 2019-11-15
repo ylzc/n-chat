@@ -11,16 +11,16 @@ export class ListSpaceDto {
 	@Transform(value => parseInt(value))
 	@IsNumberString()
 	@Expose()
-	pageNum: number;
+	pageNum!: number;
 
 	@Transform(value => parseInt(value))
 	@IsNumberString()
 	@Expose()
-	pageSize: number;
+	pageSize!: number;
 
 	@IsString()
 	@IsOptional()
 	@Expose()
-	userId: string;
+	userId!: string;
 
 }

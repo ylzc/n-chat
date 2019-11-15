@@ -3,5 +3,9 @@
   "private": true,
   "devDependencies": {
     "lerna": "^3.18.4"
-  }
+  },
+  "workspaces": [
+    "packages/n-common",
+    "packages/n-server"
+  ]
 }

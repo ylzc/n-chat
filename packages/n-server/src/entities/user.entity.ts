@@ -12,16 +12,18 @@ export class UserEntity extends BaseEntity {
 	id: string;
 
 	@Index()
-	@Column({unique: true})
+	@Column({unique: true, nullable: false})
 	account: string;
 
-	@Column()
+	@Column({nullable: false})
 	name: string;
 
 	@Exclude()
+	@Column({nullable: false})
 	password: string;
 
 	@Exclude()
+	@Column({nullable: false})
 	salt: string;
 
 	@ManyToMany(

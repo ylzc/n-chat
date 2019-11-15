@@ -5,14 +5,14 @@ export class RegisterUserDto {
 
 	@IsString()
 	@Expose()
-	account: string = '';
+	account!: string;
 
 	@IsString()
 	@Expose()
-	name: string = '';
+	name!: string;
 
 	@IsString()
 	@Expose()
-	password: string = '';
+	password!: string;
 
 }

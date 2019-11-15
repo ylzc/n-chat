@@ -3,7 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter, NestExpressApplication } from '@nestjs/platform-express';
 import { logger, RedisIoAdapter } from "@n-chat/common";
 import { AppModule } from './app.module';
-import * as express from 'express';
+import express from 'express';
 
 async function bootstrap() {
 	const server = express();
@@ -25,7 +25,7 @@ async function bootstrap() {
 		},
 	}));
 	await app.listen(3000);
-	logger.log('start on 3000', 'n-chat');
+	logger.log('start on 3000', 'N-CHAT');
 }
 
 bootstrap();

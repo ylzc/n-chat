@@ -5,16 +5,16 @@ export class CreateSpaceDto {
 
 	@IsString()
 	@Expose()
-	name: string;
+	name!: string;
 
 	@IsString({each: true})
 	@IsArray()
 	@IsOptional()
 	@Expose()
-	members: string[];
+	members!: string[];
 
 	@IsString()
 	@Expose()
-	owner: string;
+	owner!: string;
 
 }

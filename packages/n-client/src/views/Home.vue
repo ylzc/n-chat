@@ -22,7 +22,7 @@
 <script lang="ts">
 	import { Component, Vue } from "vue-property-decorator";
 	import { Button, Form, Input } from 'ant-design-vue'
-	import { RegisterUserDto } from "@n-chat/common/dtos/register-user.dto";
+	import { RegisterUserDto } from "@n-chat/common/dist/dtos/register-user.dto";
 	import axios from 'axios';
 
 	@Component({
@@ -34,14 +34,11 @@
 		}
 	})
 	export default class HomePage extends Vue {
-
 		model = new RegisterUserDto();
 
 		async submit() {
-			console.log(this.model);
 			await axios.post('/register', this.model)
 		}
-
 	}
 </script>
 <style lang="scss" scoped>

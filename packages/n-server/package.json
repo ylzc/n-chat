@@ -49,7 +49,8 @@
     "class-transformer": "^0.2.3",
     "@nestjsx/crud": "^4.2.0",
     "@nestjsx/crud-typeorm": "^4.2.0",
-    "@n-chat/common": "0.0.0"
+    "@n-chat/common": "0.0.0",
+    "password-generator": "^2.2.3"
   },
   "devDependencies": {
     "@types/socket.io": "^2.1.4",
