@@ -16,17 +16,30 @@ async function bootstrap() {
 				logger
 			},
 		);
-	app.useWebSocketAdapter(new RedisIoAdapter(app, {host: 'localhost', port: 6379}));
-	app.useStaticAssets('static', {index: ['index.html']});
+	app.useWebSocketAdapter(new RedisIoAdapter(
+		app,
+		{
+			host: 'localhost',
+			port: 6379
+		}
+	));
+	app.useStaticAssets(
+		'static',
+		{
+			index: ['index.html']
+		}
+	);
 	app.useGlobalPipes(new ValidationPipe({
 		transform: true,
 		transformOptions: {
 			strategy: 'excludeAll',
 		},
 	}));
-	app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+	app.useGlobalInterceptors(
+		new ClassSerializerInterceptor(app.get(Reflector))
+	);
 	await app.listen(3000);
 	logger.log('start on 3000', 'N-CHAT');
 }
 
-bootstrap();
+bootstrap().catch(logger.error);
