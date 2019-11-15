@@ -22,7 +22,7 @@
 <script lang="ts">
 	import { Component, Vue } from "vue-property-decorator";
 	import { Button, Form, Input } from 'ant-design-vue'
-	import { RegisterUserDto } from "@n-chat/common/dist/dtos/register-user.dto";
+	import { RegisterUserDto } from "@n-chat/common/es/dtos/register-user.dto";
 	import axios from 'axios';
 
 	@Component({
