@@ -21,9 +21,13 @@
     "socket.io-client": "^2.3.0",
     "axios": "^0.19.0",
     "ant-design-vue": "^1.4.4",
-    "@n-chat/common": "0.0.0"
+    "@n-chat/common": "0.0.0",
+    "class-validator": "^0.11.0",
+    "lodash": "^4.17.15",
+    "class-transformer": "^0.2.3"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.147",
     "babel-plugin-import": "^1.12.2",
     "@types/socket.io-client": "^1.4.32",
     "@vue/cli-plugin-babel": "^4.0.0",

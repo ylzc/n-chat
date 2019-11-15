@@ -1,5 +1,5 @@
-import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { ExpressAdapter, NestExpressApplication } from '@nestjs/platform-express';
 import { logger, RedisIoAdapter } from "@n-chat/common";
 import { AppModule } from './app.module';
@@ -24,6 +24,7 @@ async function bootstrap() {
 			strategy: 'excludeAll',
 		},
 	}));
+	app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 	await app.listen(3000);
 	logger.log('start on 3000', 'N-CHAT');
 }
