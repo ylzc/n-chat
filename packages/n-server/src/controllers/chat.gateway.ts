@@ -1,3 +1,4 @@
+import { SendMessageDto } from "@n-chat/common";
 import { HttpException, HttpStatus, Inject } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import {
@@ -69,6 +70,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayInit, OnGatewa
 
 	@SubscribeMessage('init')
 	init(@MessageBody() data: { [s: string]: string }, @ConnectedSocket() client: Socket) {
+		return data;
+	}
+
+	@SubscribeMessage('send')
+	send(@MessageBody() data: SendMessageDto, @ConnectedSocket() client: Socket) {
 		return data;
 	}
 

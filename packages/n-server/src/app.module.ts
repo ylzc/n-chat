@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './controllers/app.controller';
+import { EventEntity } from "./entities/event.entity";
 import { AppService } from './services/app.service';
 import { ChatGateway } from './controllers/chat.gateway';
 import { SpaceEntity } from './entities/space.entity';
@@ -22,6 +23,7 @@ import { UserService } from "./services/user.service";
 			entities: [
 				SpaceEntity,
 				UserEntity,
+				EventEntity
 			],
 			synchronize: true,
 		}),
