@@ -6,3 +6,4 @@ export * from './dtos/register-user.dto';
 export * from './dtos/login.dto';
 export * from './utils/enums';
 export * from './dtos/send-message.dto';
+export * from './decorators/user.decorator';

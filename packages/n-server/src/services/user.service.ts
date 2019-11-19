@@ -12,6 +12,10 @@ export class UserService {
 	@InjectRepository(UserEntity)
 	protected readonly repo: Repository<UserEntity>;
 
+	async list() {
+		return await this.repo.find();
+	}
+
 	async create(data: RegisterUserDto) {
 		try {
 			const user = this.repo.create();
@@ -32,5 +36,12 @@ export class UserService {
 		return await this.repo.findOne({
 			account
 		})
+	}
+
+	checkPassword(password: string, user: UserEntity) {
+		const md5 = crypto.createHash('md5')
+			.update(password + user.salt, 'utf8')
+			.digest('hex');
+		return user.password === md5;
 	}
 }

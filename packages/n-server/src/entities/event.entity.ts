@@ -1,5 +1,8 @@
 import { EventTypes } from "@n-chat/common";
-import { Column, CreateDateColumn, Entity, Index, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+	Column, CreateDateColumn, Entity, Index,
+	JoinColumn, OneToOne, PrimaryGeneratedColumn
+} from "typeorm";
 import { SpaceEntity } from "./space.entity";
 import { UserEntity } from "./user.entity";
 

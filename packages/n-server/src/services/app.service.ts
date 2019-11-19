@@ -12,7 +12,7 @@ export class AppService {
 
 	async check(data: LoginDto) {
 		const user = await this.userService.findByAccount(data.account);
-		if (user && user.password === data.password) {
+		if (user && this.userService.checkPassword(data.password, user)) {
 			return {
 				access_token: this.jwtService
 					.sign(

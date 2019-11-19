@@ -1,5 +1,5 @@
 import { Expose, Transform } from 'class-transformer';
-import { IsNumberString, IsOptional, IsString, Validate } from 'class-validator';
+import { IsNumber, IsNumberString, IsOptional, IsString, Validate } from 'class-validator';
 
 export class ListSpaceDto {
 
@@ -8,13 +8,13 @@ export class ListSpaceDto {
 	@Expose()
 	keyword?: string;
 
+	@IsNumber()
 	@Transform(value => parseInt(value))
-	@IsNumberString()
 	@Expose()
 	pageNum!: number;
 
+	@IsNumber()
 	@Transform(value => parseInt(value))
-	@IsNumberString()
 	@Expose()
 	pageSize!: number;
 

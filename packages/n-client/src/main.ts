@@ -21,12 +21,25 @@ axios.interceptors.request.use(
 			await validateOrReject(v.params);
 			v.params = classToPlain(v.params);
 		}
+		v.headers.access_token = localStorage.access_token;
 		return v;
 	},
 	(error) => {
 		return Promise.reject(error);
 	}
 );
+
+router.beforeEach(async (to, from, next) => {
+	try {
+		if (to.meta.auth !== false) {
+			const {data} = await axios.post('/check-token');
+			store.commit('setId', data.id);
+		}
+		next()
+	} catch (e) {
+		await router.replace('/login')
+	}
+});
 
 new Vue({
 	router,

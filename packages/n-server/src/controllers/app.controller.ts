@@ -1,8 +1,9 @@
 import { LoginDto, RegisterUserDto } from "@n-chat/common";
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post, Req } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AppService } from '../services/app.service';
 import { UserService } from "../services/user.service";
+import { Request } from "express";
 
 @Controller()
 export class AppController {
@@ -14,12 +15,17 @@ export class AppController {
 	private readonly userService: UserService;
 
 	@Post('/register')
-	register(@Body() data: RegisterUserDto) {
-		return this.userService.create(data);
+	async register(@Body() data: RegisterUserDto) {
+		return await this.userService.create(data);
 	}
 
 	@Post('/login')
-	login(@Body() data: LoginDto) {
-		return this.appService.check(data)
+	async login(@Body() data: LoginDto) {
+		return await this.appService.check(data)
+	}
+
+	@Post('/check-token')
+	async checkToken(@Req() req: Request) {
+		return await this.jwtService.verifyAsync(req.header('access_token'))
 	}
 }

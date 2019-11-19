@@ -17,12 +17,26 @@ export class SpaceService {
 
 	@TransformClassToPlain()
 	async list(params: ListSpaceDto) {
+		let v = params.pageNum; // skip需要从0开始
+		if (!isNaN(v) && isFinite(v) && v >= 1) {
+			v = v - 1;
+		} else {
+			v = 0;
+		}
 		const [data, count] = await this.repo
 			.findAndCount({
-				skip: params.pageNum,
+				skip: v,
 				take: params.pageSize,
 				where: {
-					name: Like(params.keyword),
+					name: Like(`%${params.keyword}%`),
+					owner: {
+						id: params.userId
+					},
+					// members: [
+					// 	{
+					// 		id: params.userId
+					// 	}
+					// ]
 				},
 				relations: ['owner', 'members'],
 			});
@@ -30,6 +44,18 @@ export class SpaceService {
 			data,
 			count,
 		};
+	}
+
+	@TransformClassToPlain()
+	async listUserInMembers(userId: string) {
+		return this.repo
+			.createQueryBuilder('space')
+			.innerJoin(
+				'space.members', 'member',
+				"member.id = :userId", {userId}
+			)
+			.leftJoinAndSelect('space.members', 'members')
+			.getMany();
 	}
 
 	@TransformClassToPlain()

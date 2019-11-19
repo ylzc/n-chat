@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "tsc -w",
-    "build:es": "tsc --build tsconfig.es.json"
+    "build:es": "tsc --build tsconfig.es.json -w"
   },
   "dependencies": {
     "@nestjs/common": "^6.9.0",

@@ -1,25 +1,32 @@
 <template>
 	<div class="home">
-
+		<button @click="createSpace">ok</button>
 	</div>
 </template>
 
 <script lang="ts">
+	import { CreateSpaceDto } from "@n-chat/common/es/dtos/create-space.dto";
+	import { ListSpaceDto } from "@n-chat/common/es/dtos/list-space.dto";
 	import { Component, Vue } from "vue-property-decorator";
-	import { RegisterUserDto } from "@n-chat/common/es/dtos/register-user.dto";
-	import axios from 'axios';
+	import axios from 'axios'
 
 	@Component({
 		components: {}
 	})
 	export default class HomePage extends Vue {
 
-		model = new RegisterUserDto();
+		createSpaceDto: CreateSpaceDto = new CreateSpaceDto();
 
-		async submit() {
-			await axios.post('/register', this.model);
+		async createSpace() {
+			this.createSpaceDto.name = new Date().valueOf() + '';
+			this.createSpaceDto.members = ['6a76e97b-b0ad-4302-8340-8194bb7927db'];
+			this.createSpaceDto.owner = '';
+			await axios.post('space/create', this.createSpaceDto)
 		}
 
+		async mounted() {
+			await axios.get('space/list-user-in-members');
+		}
 	}
 </script>
 <style lang="scss" scoped>
@@ -29,9 +36,5 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-	}
-
-	.home-form {
-		width: 300px;
 	}
 </style>
