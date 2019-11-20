@@ -1,7 +1,7 @@
 import { RegisterUserDto } from "@n-chat/common";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { MoreThan, Repository } from "typeorm";
 import { UserEntity } from "../entities/user.entity";
 import pg from 'password-generator';
 import crypto from 'crypto';
@@ -43,5 +43,13 @@ export class UserService {
 			.update(password + user.salt, 'utf8')
 			.digest('hex');
 		return user.password === md5;
+	}
+
+	async syncUser(updateTime: number) {
+		return await this.repo.find({
+			where: {
+				updateTime: MoreThan(new Date(updateTime || 0))
+			}
+		})
 	}
 }

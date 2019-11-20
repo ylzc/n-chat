@@ -1,4 +1,5 @@
 import { EventTypes } from "@n-chat/common";
+import { Transform } from "class-transformer";
 import {
 	BaseEntity,
 	Column, CreateDateColumn, Entity, Index,
@@ -20,10 +21,12 @@ export class EventEntity extends BaseEntity {
 	@Column({nullable: false})
 	content: string;
 
-	@CreateDateColumn({type: "timestamp"})
+	@Transform(value => new Date(value).valueOf())
+	@CreateDateColumn({type: "timestamptz"})
 	createTime: number;
 
-	@UpdateDateColumn({type: "timestamp"})
+	@Transform(value => new Date(value).valueOf())
+	@UpdateDateColumn({type: "timestamptz"})
 	updateTime: number;
 
 	@OneToOne(

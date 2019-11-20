@@ -50,7 +50,8 @@
     "@nestjsx/crud": "^4.2.0",
     "@nestjsx/crud-typeorm": "^4.2.0",
     "@n-chat/common": "0.0.0",
-    "password-generator": "^2.2.3"
+    "password-generator": "^2.2.3",
+    "dayjs": "^1.8.17"
   },
   "devDependencies": {
     "@types/socket.io": "^2.1.4",

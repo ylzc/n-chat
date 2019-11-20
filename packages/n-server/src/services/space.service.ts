@@ -32,11 +32,6 @@ export class SpaceService {
 					owner: {
 						id: params.userId
 					},
-					// members: [
-					// 	{
-					// 		id: params.userId
-					// 	}
-					// ]
 				},
 				relations: ['owner', 'members'],
 			});
@@ -54,7 +49,7 @@ export class SpaceService {
 				'space.members', 'member',
 				"member.id = :userId", {userId}
 			)
-			.leftJoinAndSelect('space.members', 'members')
+			.loadAllRelationIds({relations: ['members']})
 			.getMany();
 	}
 

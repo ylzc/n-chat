@@ -1,3 +1,4 @@
+import { Transform } from "class-transformer";
 import {
 	BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne,
 	OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn
@@ -34,10 +35,12 @@ export class SpaceEntity extends BaseEntity {
 	@JoinColumn()
 	message: EventEntity;
 
-	@CreateDateColumn({type: "timestamp"})
+	@Transform(value => new Date(value).valueOf())
+	@CreateDateColumn({type: "timestamptz"})
 	createTime: number;
 
-	@UpdateDateColumn({type: "timestamp"})
+	@Transform(value => new Date(value).valueOf())
+	@UpdateDateColumn({type: "timestamptz"})
 	updateTime: number;
 
 }

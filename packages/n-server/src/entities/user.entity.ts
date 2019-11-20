@@ -2,8 +2,9 @@ import {
 	BaseEntity, Column, CreateDateColumn, Entity, Index, ManyToMany, OneToMany, PrimaryColumn,
 	PrimaryGeneratedColumn, UpdateDateColumn
 } from 'typeorm';
-import { Exclude } from 'class-transformer';
+import { Exclude, Transform } from 'class-transformer';
 import { SpaceEntity } from './space.entity';
+import dayjs from 'dayjs';
 
 @Entity('user')
 export class UserEntity extends BaseEntity {
@@ -38,10 +39,12 @@ export class UserEntity extends BaseEntity {
 	)
 	adminSpaces: SpaceEntity[];
 
-	@CreateDateColumn({type: "timestamp"})
+	@Transform(value => new Date(value).valueOf())
+	@CreateDateColumn({type: "timestamptz"})
 	createTime: number;
 
-	@UpdateDateColumn({type: "timestamp"})
+	@Transform(value => new Date(value).valueOf())
+	@UpdateDateColumn({type: "timestamptz"})
 	updateTime: number;
 
 }
