@@ -19,7 +19,7 @@
 
 		async createSpace() {
 			this.createSpaceDto.name = new Date().valueOf() + '';
-			this.createSpaceDto.members = ['6a76e97b-b0ad-4302-8340-8194bb7927db'];
+			this.createSpaceDto.members = [];
 			this.createSpaceDto.owner = '';
 			await axios.post('space/create', this.createSpaceDto)
 		}

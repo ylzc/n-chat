@@ -1,7 +1,8 @@
 import {
-	BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne,
-	OneToMany, OneToOne, PrimaryGeneratedColumn
+	BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne,
+	OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn
 } from 'typeorm';
+import { EventEntity } from "./event.entity";
 import { UserEntity } from './user.entity';
 
 @Entity('space')
@@ -23,7 +24,20 @@ export class SpaceEntity extends BaseEntity {
 	)
 	owner: UserEntity;
 
-	@Column()
+	@Column({nullable: false})
 	name: string;
+
+	@OneToOne(
+		type => EventEntity,
+		ev => ev.id
+	)
+	@JoinColumn()
+	message: EventEntity;
+
+	@CreateDateColumn({type: "timestamp"})
+	createTime: number;
+
+	@UpdateDateColumn({type: "timestamp"})
+	updateTime: number;
 
 }

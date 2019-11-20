@@ -1,13 +1,14 @@
 import { EventTypes } from "@n-chat/common";
 import {
+	BaseEntity,
 	Column, CreateDateColumn, Entity, Index,
-	JoinColumn, OneToOne, PrimaryGeneratedColumn
+	JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn
 } from "typeorm";
 import { SpaceEntity } from "./space.entity";
 import { UserEntity } from "./user.entity";
 
 @Entity()
-export class EventEntity {
+export class EventEntity extends BaseEntity {
 
 	@PrimaryGeneratedColumn('uuid')
 	id: string;
@@ -16,11 +17,14 @@ export class EventEntity {
 	@Column({enum: EventTypes})
 	eventType: EventTypes;
 
-	@Column()
+	@Column({nullable: false})
 	content: string;
 
 	@CreateDateColumn({type: "timestamp"})
 	createTime: number;
+
+	@UpdateDateColumn({type: "timestamp"})
+	updateTime: number;
 
 	@OneToOne(
 		type => UserEntity,
@@ -30,7 +34,7 @@ export class EventEntity {
 	creator: UserEntity;
 
 	@Index()
-	@Column()
+	@Column({nullable: false})
 	initId: string;
 
 	@OneToOne(

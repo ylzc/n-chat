@@ -1,6 +1,6 @@
 import {
-	BaseEntity, Column, Entity, Index, ManyToMany, OneToMany, PrimaryColumn,
-	PrimaryGeneratedColumn,
+	BaseEntity, Column, CreateDateColumn, Entity, Index, ManyToMany, OneToMany, PrimaryColumn,
+	PrimaryGeneratedColumn, UpdateDateColumn
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { SpaceEntity } from './space.entity';
@@ -32,7 +32,16 @@ export class UserEntity extends BaseEntity {
 	)
 	spaces: SpaceEntity[];
 
-	@OneToMany(type => SpaceEntity, space => space.owner)
+	@OneToMany(
+		type => SpaceEntity,
+		space => space.owner
+	)
 	adminSpaces: SpaceEntity[];
+
+	@CreateDateColumn({type: "timestamp"})
+	createTime: number;
+
+	@UpdateDateColumn({type: "timestamp"})
+	updateTime: number;
 
 }
