@@ -64,13 +64,9 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayInit, OnGatewa
 
 	@SubscribeMessage('send')
 	async send(@MessageBody() data: SendMessageDto, @ConnectedSocket() client: Socket) {
-		try {
-			data.creatorId = this.getUser(client)['id'];
-			await this.event.create(data);
-		} catch (e) {
-			console.log(e)
-		}
-		return {event: 'event', data};
+		const message = await this.event.create(data);
+		client.to(data.spaceId).emit('event', message);
+		return {event: 'event', data: message};
 	}
 
 }
