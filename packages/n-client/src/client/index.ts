@@ -1,3 +1,4 @@
+import { SendMessageDto } from "@n-chat/common/es/dtos/send-message.dto";
 import Io from 'socket.io-client'
 import uuid from "uuid";
 
@@ -40,6 +41,10 @@ export class NClient {
 		this.io.on('error', () => {
 			this.io.close();
 		});
+	}
+
+	sendMessage(data: SendMessageDto) {
+		this.io.emit('send', data);
 	}
 
 }

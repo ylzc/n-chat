@@ -6,6 +6,7 @@ import {
 	OnGatewayConnection, OnGatewayInit, OnGatewayDisconnect,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { EventService } from "../services/event.service";
 // import { RedisAdapter } from 'socket.io-redis';
 import { SpaceService } from "../services/space.service";
 
@@ -17,6 +18,9 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayInit, OnGatewa
 
 	@Inject(SpaceService)
 	private readonly space: SpaceService;
+
+	@Inject(EventService)
+	private readonly event: EventService;
 
 	@WebSocketServer()
 	server: Server;
@@ -54,8 +58,18 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayInit, OnGatewa
 	async handleDisconnect(client: Socket) {
 	}
 
+	getUser(client: Socket) {
+		return this.jwt.decode(client.handshake.query.token);
+	}
+
 	@SubscribeMessage('send')
-	send(@MessageBody() data: SendMessageDto, @ConnectedSocket() client: Socket) {
+	async send(@MessageBody() data: SendMessageDto, @ConnectedSocket() client: Socket) {
+		try {
+			data.creatorId = this.getUser(client)['id'];
+			await this.event.create(data);
+		} catch (e) {
+			console.log(e)
+		}
 		return {event: 'event', data};
 	}
 

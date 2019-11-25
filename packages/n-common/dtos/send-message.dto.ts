@@ -1,5 +1,6 @@
 import { Expose } from "class-transformer";
-import { IsString } from "class-validator";
+import { IsEnum, IsString } from "class-validator";
+import { EventTypes } from "../utils/enums";
 
 export class SendMessageDto {
 
@@ -12,7 +13,15 @@ export class SendMessageDto {
 	content!: string;
 
 	@Expose()
+	@IsEnum(EventTypes)
+	eventType!: EventTypes;
+
+	@Expose()
 	@IsString()
-	eventType!: string;
+	spaceId!: string;
+
+	@Expose()
+	@IsString()
+	creatorId!: string;
 
 }

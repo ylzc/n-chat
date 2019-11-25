@@ -1,3 +1,4 @@
+import {EventTypes} from "@n-chat/common/es";
 <template>
 	<div class="home">
 		<button @click="createSpace">ok</button>
@@ -6,10 +7,12 @@
 
 <script lang="ts">
 	import { NClient } from "@/client";
+	import { EventTypes } from "@n-chat/common/es/utils/enums";
 	import { CreateSpaceDto } from "@n-chat/common/es/dtos/create-space.dto";
-	import { ListSpaceDto } from "@n-chat/common/es/dtos/list-space.dto";
-	import { Component, Vue } from "vue-property-decorator";
+	import { SendMessageDto } from "@n-chat/common/es/dtos/send-message.dto";
 	import axios from 'axios'
+	import uuid from "uuid";
+	import { Component, Vue } from "vue-property-decorator";
 
 	@Component({
 		components: {}
@@ -26,7 +29,14 @@
 		}
 
 		async mounted() {
-			const client = new NClient('ws://172.18.0.127:3000')
+			await axios.get('space/list-id-by-user');
+			const client = new NClient('ws://172.18.0.127:3000');
+			const temp = new SendMessageDto();
+			temp.initId = uuid();
+			temp.content = 'hello ' + new Date().valueOf();
+			temp.eventType = EventTypes.TEXT;
+			temp.spaceId = '25c7a75c-3aee-42c7-9004-c2093fc44f35';
+			client.sendMessage(temp);
 		}
 	}
 </script>

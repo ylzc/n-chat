@@ -10,6 +10,7 @@ import { ChatGateway } from './controllers/chat.gateway';
 import { SpaceEntity } from './entities/space.entity';
 import { UserEntity } from './entities/user.entity';
 import { UserController } from './controllers/user.controller';
+import { EventService } from "./services/event.service";
 import { JwtStrategy } from "./services/jwt.strategy";
 import { SpaceService } from "./services/space.service";
 import { UserService } from "./services/user.service";
@@ -34,6 +35,7 @@ import { UserService } from "./services/user.service";
 		TypeOrmModule.forFeature([
 			SpaceEntity,
 			UserEntity,
+			EventEntity
 		]),
 	],
 	controllers: [
@@ -46,7 +48,8 @@ import { UserService } from "./services/user.service";
 		ChatGateway,
 		UserService,
 		SpaceService,
-		JwtStrategy
+		JwtStrategy,
+		EventService
 	],
 })
 export class AppModule {

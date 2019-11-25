@@ -3,7 +3,7 @@ import { Transform } from "class-transformer";
 import {
 	BaseEntity,
 	Column, CreateDateColumn, Entity, Index,
-	JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn
+	JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn
 } from "typeorm";
 import { SpaceEntity } from "./space.entity";
 import { UserEntity } from "./user.entity";
@@ -29,7 +29,7 @@ export class EventEntity extends BaseEntity {
 	@UpdateDateColumn({type: "timestamptz"})
 	updateTime: number;
 
-	@OneToOne(
+	@ManyToOne(
 		type => UserEntity,
 		user => user.id
 	)
@@ -40,7 +40,7 @@ export class EventEntity extends BaseEntity {
 	@Column({nullable: false})
 	initId: string;
 
-	@OneToOne(
+	@ManyToOne(
 		type => SpaceEntity,
 		space => space.id
 	)
