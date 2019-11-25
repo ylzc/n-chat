@@ -37,6 +37,15 @@ export class SpaceController {
 		return await this.service.listUserInMembers(userId || id);
 	}
 
+	@Get('list-id-by-user')
+	@ApiImplicitQuery({name: 'userId', type: {}})
+	async listIdByUser(
+		@UserId() id: string,
+		@Query('userId') userId: string
+	) {
+		return await this.service.listIdByUser(userId || id);
+	}
+
 	@Post('delete')
 	delete() {
 	}

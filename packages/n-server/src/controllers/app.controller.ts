@@ -1,5 +1,5 @@
 import { LoginDto, RegisterUserDto } from "@n-chat/common";
-import { Body, Controller, Get, Inject, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Inject, Post, Req } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AppService } from '../services/app.service';
 import { UserService } from "../services/user.service";
@@ -26,6 +26,10 @@ export class AppController {
 
 	@Post('/check-token')
 	async checkToken(@Req() req: Request) {
-		return await this.jwtService.verifyAsync(req.header('access_token'))
+		try {
+			return await this.jwtService.verifyAsync(req.header('access_token'))
+		} catch (e) {
+			throw new HttpException('错误的token', HttpStatus.UNAUTHORIZED);
+		}
 	}
 }

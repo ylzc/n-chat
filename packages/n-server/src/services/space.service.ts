@@ -41,9 +41,20 @@ export class SpaceService {
 		};
 	}
 
+	async listIdByUser(userId: string) {
+		return await this.repo
+			.createQueryBuilder('space')
+			.select('space.id')
+			.innerJoin(
+				'space.members', 'member',
+				"member.id = :userId", {userId}
+			)
+			.getMany();
+	}
+
 	@TransformClassToPlain()
 	async listUserInMembers(userId: string) {
-		return this.repo
+		return await this.repo
 			.createQueryBuilder('space')
 			.innerJoin(
 				'space.members', 'member',

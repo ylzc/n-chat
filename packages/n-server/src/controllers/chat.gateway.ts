@@ -6,7 +6,8 @@ import {
 	OnGatewayConnection, OnGatewayInit, OnGatewayDisconnect,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { RedisAdapter } from 'socket.io-redis';
+// import { RedisAdapter } from 'socket.io-redis';
+import { SpaceService } from "../services/space.service";
 
 @WebSocketGateway({transports: ['websocket']})
 export class ChatGateway implements OnGatewayConnection, OnGatewayInit, OnGatewayDisconnect {
@@ -14,12 +15,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayInit, OnGatewa
 	@Inject(JwtService)
 	private readonly jwt: JwtService;
 
+	@Inject(SpaceService)
+	private readonly space: SpaceService;
+
 	@WebSocketServer()
 	server: Server;
-
-	userToClient: Map<string, Set<string>> = new Map();
-
-	clientToUser: Map<string, string> = new Map();
 
 	afterInit(server: Server): any {
 		server.use(async (socket, next) => {
@@ -32,50 +32,31 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayInit, OnGatewa
 				socket.disconnect(true);
 			}
 		});
-		const adapter = server.adapter() as RedisAdapter;
-		// console.info();
 	}
 
-	handleConnection(client: Socket, ...args) {
+	async joinRooms(userId: string, client: Socket) {
+		const temp = await this.space.listIdByUser(userId);
+		client.join(temp.map(t => t.id));
+	}
+
+	async handleConnection(client: Socket, ...args) {
 		try {
 			const user: any = this.jwt.decode(client.handshake.query.token);
 			const userId: string = user.id;
-			let userSet = this.userToClient.get(userId);
-			if (userSet) {
-				userSet.forEach(clientId => {
-					this.clientToUser.delete(clientId);
-				});
-			} else {
-				userSet = new Set<string>();
-				this.userToClient.set(userId, userSet);
-			}
-			userSet.add(client.id);
-			this.clientToUser.set(client.id, userId);
+			client.join(userId);
+			await this.joinRooms(userId, client);
+			client.send('connect success');
 		} catch (e) {
 			return e;
 		}
 	}
 
-	handleDisconnect(client: Socket) {
-		const userId = this.clientToUser.get(client.id);
-		const set = this.userToClient.get(userId);
-		set.delete(client.id);
-		this.clientToUser.delete(client.id);
-	}
-
-	@SubscribeMessage('events')
-	handleEvent(@MessageBody() data: string, @ConnectedSocket() client: Socket): string {
-		return data;
-	}
-
-	@SubscribeMessage('init')
-	init(@MessageBody() data: { [s: string]: string }, @ConnectedSocket() client: Socket) {
-		return data;
+	async handleDisconnect(client: Socket) {
 	}
 
 	@SubscribeMessage('send')
 	send(@MessageBody() data: SendMessageDto, @ConnectedSocket() client: Socket) {
-		return data;
+		return {event: 'event', data};
 	}
 
 }

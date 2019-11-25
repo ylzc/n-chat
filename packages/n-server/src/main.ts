@@ -16,13 +16,13 @@ async function bootstrap() {
 				logger
 			},
 		);
-	app.useWebSocketAdapter(new RedisIoAdapter(
-		app,
-		{
-			host: 'localhost',
-			port: 6379
-		}
-	));
+	// app.useWebSocketAdapter(new RedisIoAdapter(
+	// 	app,
+	// 	{
+	// 		host: 'localhost',
+	// 		port: 6379
+	// 	}
+	// ));
 	app.useStaticAssets(
 		'static',
 		{

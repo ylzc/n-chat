@@ -29,6 +29,7 @@
 		async login() {
 			let {data} = await axios.post('/login', this.loginDto);
 			localStorage.access_token = data.access_token;
+			await this.$router.push('/')
 		}
 
 	}

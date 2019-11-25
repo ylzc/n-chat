@@ -10,39 +10,39 @@
 
 </body>
 <script>
-	async function login() {
-		const { data } = await axios.post('/login');
-		initSocket(data.access_token);
-	}
+    async function login() {
+        const {data} = await axios.post('/login', {account: 'yel', password: 'Yel123456.'});
+        initSocket(data.access_token);
+    }
 
-	function initSocket(token) {
-		let socket = io(
-			'http://172.18.0.127:3000',
-			{
-				query: {
-					token,
-				},
-				upgrade: true,
-				transports: ['websocket'],
-			},
-		);
-		socket.on('connect', function() {
-			console.log('connect');
-		});
-		socket.on('event', function(data) {
-			console.log(data);
-		});
-		socket.on('disconnect', function() {
-			console.log('disconnect');
-		});
-		socket.on('error', function(data) {
-			console.log(data);
-			socket.close();
-			socket = null;
-		});
-	}
+    function initSocket(token) {
+        let socket = io(
+            'http://172.18.0.127:3000',
+            {
+                query: {
+                    token,
+                },
+                upgrade: true,
+                transports: ['websocket'],
+            },
+        );
+        socket.on('connect', function () {
+            console.log('connect');
+        });
+        socket.on('event', function (data) {
+            console.log(data);
+        });
+        socket.on('disconnect', function () {
+            console.log('disconnect');
+        });
+        socket.on('error', function (data) {
+            console.log(data);
+            socket.close();
+            socket = null;
+        });
+    }
 
-	login();
-	// initSocket();
+    login();
+    // initSocket();
 </script>
 </html>

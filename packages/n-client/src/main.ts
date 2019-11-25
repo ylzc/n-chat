@@ -9,7 +9,7 @@ import { classToPlain } from 'class-transformer'
 
 Vue.config.productionTip = false;
 
-axios.defaults.baseURL = 'http://127.0.0.1:3000';
+axios.defaults.baseURL = '/api';
 
 axios.interceptors.request.use(
 	async (v) => {

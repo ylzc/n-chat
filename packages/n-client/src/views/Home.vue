@@ -5,6 +5,7 @@
 </template>
 
 <script lang="ts">
+	import { NClient } from "@/client";
 	import { CreateSpaceDto } from "@n-chat/common/es/dtos/create-space.dto";
 	import { ListSpaceDto } from "@n-chat/common/es/dtos/list-space.dto";
 	import { Component, Vue } from "vue-property-decorator";
@@ -25,7 +26,7 @@
 		}
 
 		async mounted() {
-			await axios.get('space/list-user-in-members');
+			const client = new NClient('ws://172.18.0.127:3000')
 		}
 	}
 </script>
