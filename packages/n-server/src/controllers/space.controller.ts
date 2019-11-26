@@ -1,12 +1,15 @@
+import { AddMemberDto } from "@n-chat/common/dtos/add-member.dto";
 import {
 	Body, Controller, Get, Inject, Post, Query, Req, UseGuards
 } from '@nestjs/common';
 import { CreateSpaceDto, ListSpaceDto, UserId } from '@n-chat/common';
 import { JwtService } from "@nestjs/jwt";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiImplicitBody, ApiImplicitQuery } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiImplicitBody, ApiImplicitQuery, ApiUseTags } from "@nestjs/swagger";
 import { SpaceService } from '../services/space.service';
 
+@ApiBearerAuth()
+@ApiUseTags('space')
 @UseGuards(AuthGuard('jwt'))
 @Controller('space')
 export class SpaceController {
@@ -16,15 +19,19 @@ export class SpaceController {
 	@Inject(JwtService)
 	private readonly jwtService: JwtService;
 
+	@Post('add-members')
+	async addMembers(@Body() body: AddMemberDto) {
+		return await this.service.addMembers(body);
+	}
+
 	@Post('create')
-	@ApiImplicitBody({name: 'create-space', type: CreateSpaceDto})
 	async create(@UserId() id: string, @Body() createSpaceDto: CreateSpaceDto) {
 		createSpaceDto.owner = id;
 		return await this.service.create(createSpaceDto)
 	}
 
 	@Get('list')
-	async list(@Query() params: ListSpaceDto) {
+	async list(@Query() params: ListSpaceDto, @UserId() id) {
 		return await this.service.list(params);
 	}
 

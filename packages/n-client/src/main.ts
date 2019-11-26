@@ -14,7 +14,7 @@ axios.defaults.baseURL = '/api';
 axios.interceptors.request.use(
 	async (v) => {
 		if (isObject(v.data)) {
-			await validateOrReject(v.data);
+			const e = await validateOrReject(v.data);
 			v.data = classToPlain(v.data);
 		}
 		if (isObject(v.params)) {

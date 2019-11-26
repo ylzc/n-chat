@@ -5,6 +5,7 @@
 			<input type="text" v-model="loginDto.password">
 		</div>
 		<button @click="login">ok</button>
+		<button @click="submit">re</button>
 	</div>
 </template>
 
@@ -23,7 +24,11 @@
 		loginDto: LoginDto = new LoginDto();
 
 		async submit() {
-			await axios.post('/register', this.registerUserDto);
+			let r = this.registerUserDto;
+			r.password = 'admin';
+			r.name = 'admin';
+			r.account = 'admin';
+			await axios.post('/register', r);
 		}
 
 		async login() {

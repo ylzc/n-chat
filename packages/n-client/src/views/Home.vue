@@ -31,12 +31,12 @@ import {EventTypes} from "@n-chat/common/es";
 		async mounted() {
 			await axios.get('space/list-id-by-user');
 			const client = new NClient('ws://172.18.0.127:3000');
-			const temp = new SendMessageDto();
-			temp.initId = uuid();
-			temp.content = 'hello ' + new Date().valueOf();
-			temp.eventType = EventTypes.TEXT;
-			temp.spaceId = '25c7a75c-3aee-42c7-9004-c2093fc44f35';
-			client.sendMessage(temp);
+			// const temp = new SendMessageDto();
+			// temp.initId = uuid();
+			// temp.content = 'hello ' + new Date().valueOf();
+			// temp.eventType = EventTypes.TEXT;
+			// temp.spaceId = '25c7a75c-3aee-42c7-9004-c2093fc44f35';
+			// client.sendMessage(temp);
 		}
 	}
 </script>

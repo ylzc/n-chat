@@ -1,3 +1,4 @@
+import { AddMemberDto } from "@n-chat/common/dtos/add-member.dto";
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TransformClassToPlain } from 'class-transformer';
@@ -5,6 +6,7 @@ import { Like, Repository } from 'typeorm';
 import { CreateSpaceDto, ListSpaceDto } from '@n-chat/common';
 import { SpaceEntity } from '../entities/space.entity';
 import { UserEntity } from '../entities/user.entity';
+import isString from 'lodash/isString'
 
 @Injectable()
 export class SpaceService {
@@ -14,6 +16,29 @@ export class SpaceService {
 
 	@InjectRepository(UserEntity)
 	protected readonly user: Repository<UserEntity>;
+
+	async addMembers(data: AddMemberDto) {
+		const space = await this.repo.findOne(data.spaceId, {relations: ['members']});
+		if (space) {
+			if (data.userIds) {
+				let ids = data.userIds.filter(id => isString(id));
+				if (space.members) {
+					ids = ids.filter(id => !space.members.find(m => m.id === id));
+				} else {
+					space.members = []
+				}
+				if (ids.length) {
+					const users = await this.user
+						.findByIds(ids);
+					if (users.length) {
+						space.members = space.members.concat(users);
+						return await space.save();
+					}
+				}
+			}
+		}
+		return space;
+	}
 
 	@TransformClassToPlain()
 	async list(params: ListSpaceDto) {
@@ -27,12 +52,6 @@ export class SpaceService {
 			.findAndCount({
 				skip: v,
 				take: params.pageSize,
-				where: {
-					name: Like(`%${params.keyword}%`),
-					owner: {
-						id: params.userId
-					},
-				},
 				relations: ['owner', 'members'],
 			});
 		return {

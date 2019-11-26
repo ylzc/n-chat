@@ -1,10 +1,12 @@
 import { LoginDto, RegisterUserDto } from "@n-chat/common";
 import { Body, Controller, Get, HttpException, HttpStatus, Inject, Post, Req } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { ApiUseTags } from "@nestjs/swagger";
 import { AppService } from '../services/app.service';
 import { UserService } from "../services/user.service";
 import { Request } from "express";
 
+@ApiUseTags()
 @Controller()
 export class AppController {
 	@Inject(AppService)

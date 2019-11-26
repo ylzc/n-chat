@@ -1,7 +1,9 @@
 import { RegisterUserDto } from "@n-chat/common";
 import { Body, Controller, Get, Inject, ParseIntPipe, Post, Query } from '@nestjs/common';
+import { ApiUseTags } from "@nestjs/swagger";
 import { UserService } from "../services/user.service";
 
+@ApiUseTags('user')
 @Controller('user')
 export class UserController {
 
