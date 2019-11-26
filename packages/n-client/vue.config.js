@@ -1,6 +1,11 @@
 module.exports = {
     transpileDependencies: [],
-    pluginOptions: {},
+    pluginOptions: {
+        'electronBuilder': {
+            nodeModulesPath: '../../node_modules',
+            outputDir: '../../dist'
+        },
+    },
     css: {
         loaderOptions: {
             postcss: {

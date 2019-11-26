@@ -174,3 +174,4 @@ dist_electron/
 
 *.iml
 .idea/
+dist
