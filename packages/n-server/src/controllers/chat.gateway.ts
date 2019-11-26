@@ -58,15 +58,22 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayInit, OnGatewa
 	async handleDisconnect(client: Socket) {
 	}
 
-	getUser(client: Socket) {
-		return this.jwt.decode(client.handshake.query.token);
+	getUser(client: Socket): any {
+		return this.jwt.decode(client.handshake.query.token) || {};
 	}
 
 	@SubscribeMessage('send')
 	async send(@MessageBody() data: SendMessageDto, @ConnectedSocket() client: Socket) {
-		const message = await this.event.create(data);
-		client.to(data.spaceId).emit('event', message);
-		return {event: 'event', data: message};
+		try {
+			if (!data.creatorId) {
+				data.creatorId = this.getUser(client).id;
+			}
+			const message = await this.event.create(data);
+			client.to(data.spaceId).emit('event', message);
+			return {event: 'event', data: message};
+		} catch (e) {
+
+		}
 	}
 
 }
