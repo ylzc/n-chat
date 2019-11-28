@@ -93,4 +93,17 @@ export class SpaceService {
 		temp.name = space.name;
 		return await this.repo.save(temp);
 	}
+
+	async checkUserInSpace(spaceId: string, userId: string) {
+		return await this.repo
+			.createQueryBuilder('space')
+			.select('space.id')
+			.innerJoin(
+				'space.members', 'member',
+				"member.id = :userId", {userId}
+			)
+			.where({id: spaceId})
+			.cache(true)
+			.getOne()
+	}
 }

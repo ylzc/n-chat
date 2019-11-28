@@ -20,7 +20,7 @@ export class AppService {
 							id: user.id,
 						},
 						{
-							expiresIn: 3600 * 10,
+							expiresIn: 3600 * 24 * 30,
 						},
 					),
 			};

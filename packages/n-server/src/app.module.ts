@@ -31,6 +31,7 @@ import { UserService } from "./services/user.service";
 				EventEntity
 			],
 			synchronize: true,
+			// cache
 		}),
 		TypeOrmModule.forFeature([
 			SpaceEntity,

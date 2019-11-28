@@ -68,9 +68,12 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayInit, OnGatewa
 			if (!data.creatorId) {
 				data.creatorId = this.getUser(client).id;
 			}
-			const message = await this.event.create(data);
-			client.to(data.spaceId).emit('event', message);
-			return {event: 'event', data: message};
+			const space = await this.space.checkUserInSpace(data.spaceId, data.creatorId);
+			if (space) {
+				const message = await this.event.create(data);
+				client.to(data.spaceId).emit('event', message);
+				return {event: 'event', data: message};
+			}
 		} catch (e) {
 
 		}
