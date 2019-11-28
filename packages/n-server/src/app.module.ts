@@ -10,6 +10,7 @@ import { ChatGateway } from './controllers/chat.gateway';
 import { SpaceEntity } from './entities/space.entity';
 import { UserEntity } from './entities/user.entity';
 import { UserController } from './controllers/user.controller';
+import { ChatService } from "./services/chat.service";
 import { EventService } from "./services/event.service";
 import { JwtStrategy } from "./services/jwt.strategy";
 import { SpaceService } from "./services/space.service";
@@ -50,7 +51,8 @@ import { UserService } from "./services/user.service";
 		UserService,
 		SpaceService,
 		JwtStrategy,
-		EventService
+		EventService,
+		ChatService
 	],
 })
 export class AppModule {

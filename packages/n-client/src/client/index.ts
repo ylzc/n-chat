@@ -1,4 +1,5 @@
 import { SendMessageDto } from "@n-chat/common/es/dtos/send-message.dto";
+import { EventInterface } from "@n-chat/common/types/event.interface";
 import Io from 'socket.io-client'
 import uuid from "uuid";
 
@@ -12,6 +13,14 @@ export class NClient {
 
 	private readonly server!: string;
 	private readonly io!: SocketIOClient.Socket;
+	private status = false;
+	private resolve!: any;
+	private reject!: any;
+
+	private ready: Promise<any> = new Promise((resolve, reject) => {
+		this.resolve = resolve;
+		this.reject = reject;
+	});
 
 	constructor(server: string, id: string = 'default') {
 		if (NClient.get(id)) {
@@ -34,17 +43,53 @@ export class NClient {
 		}
 	}
 
+	private messages: SendMessageDto[] = [];
+
+	onReady() {
+		return this.ready;
+	}
+
 	init() {
-		this.io.on('event', () => {
-			console.log(arguments)
+		const io = this.io;
+		io.on('init', () => {
+			this.onIoInit();
 		});
-		this.io.on('error', () => {
-			this.io.close();
+		io.on('event', (event: EventInterface) => {
+			this.onIoEvent(event);
+		});
+		io.on('error', (e: any) => {
+			console.log(e);
+		});
+		io.on('disconnect', (e: any) => {
+			console.log('disconnect', e);
 		});
 	}
 
-	sendMessage(data: SendMessageDto) {
-		this.io.emit('send', data);
+	private onIoInit() {
+		this.status = true;
+		this.resolve();
+		this.sendMessages().catch(console.error);
+	}
+
+	private onIoEvent(event: EventInterface) {
+	}
+
+	async sendMessage(data: SendMessageDto) {
+		if (this.status) {
+			this.io.emit('send-message', data);
+		} else {
+			this.messages.push(data);
+		}
+	}
+
+	async sendMessages() {
+		const messages = this.messages;
+		this.messages = [];
+		try {
+			this.io.emit('sendMessages', messages);
+		} catch (e) {
+			this.messages = messages.concat(this.messages);
+		}
 	}
 
 }

@@ -6,6 +6,7 @@ import {
 	OnGatewayConnection, OnGatewayInit, OnGatewayDisconnect,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { ChatService } from "../services/chat.service";
 import { EventService } from "../services/event.service";
 // import { RedisAdapter } from 'socket.io-redis';
 import { SpaceService } from "../services/space.service";
@@ -22,25 +23,23 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayInit, OnGatewa
 	@Inject(EventService)
 	private readonly event: EventService;
 
+	@Inject(ChatService)
+	private readonly chat: ChatService;
+
 	@WebSocketServer()
 	server: Server;
 
 	afterInit(server: Server): any {
-		server.use(async (socket, next) => {
+		server.use(async (client, next) => {
 			try {
-				const handshake = socket.handshake;
+				const handshake = client.handshake;
 				await this.jwt.verifyAsync(handshake.query.token);
 				next();
 			} catch (e) {
-				socket.error(new HttpException('token 异常', HttpStatus.UNAUTHORIZED));
-				socket.disconnect(true);
+				client.error(new HttpException('token 异常', HttpStatus.UNAUTHORIZED));
+				client.disconnect();
 			}
 		});
-	}
-
-	async joinRooms(userId: string, client: Socket) {
-		const temp = await this.space.listIdByUser(userId);
-		client.join(temp.map(t => t.id));
 	}
 
 	async handleConnection(client: Socket, ...args) {
@@ -48,8 +47,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayInit, OnGatewa
 			const user: any = this.jwt.decode(client.handshake.query.token);
 			const userId: string = user.id;
 			client.join(userId);
-			await this.joinRooms(userId, client);
-			client.send('connect success');
+			await this.chat.joinRooms(userId, client);
+			client.emit('init', {message: 'join rooms success'});
 		} catch (e) {
 			return e;
 		}
@@ -62,18 +61,31 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayInit, OnGatewa
 		return this.jwt.decode(client.handshake.query.token) || {};
 	}
 
-	@SubscribeMessage('send')
-	async send(@MessageBody() data: SendMessageDto, @ConnectedSocket() client: Socket) {
+	@SubscribeMessage('send-message')
+	async sendMessage(@MessageBody() data: SendMessageDto, @ConnectedSocket() client: Socket) {
 		try {
-			if (!data.creatorId) {
-				data.creatorId = this.getUser(client).id;
-			}
-			const space = await this.space.checkUserInSpace(data.spaceId, data.creatorId);
-			if (space) {
-				const message = await this.event.create(data);
-				client.to(data.spaceId).emit('event', message);
+			const message = await this.chat.handleMessage(data, client);
+			if (message) {
+				setTimeout(() => {
+					client.to(data.spaceId).emit('event', message);
+				}, 0);
 				return {event: 'event', data: message};
 			}
+		} catch (e) {
+
+		}
+	}
+
+	@SubscribeMessage('send-messages')
+	async sendMessages(@MessageBody() data: SendMessageDto[], @ConnectedSocket() client: Socket) {
+		try {
+			const [messages, map] = await this.chat.handleMessages(data, client);
+			setTimeout(() => {
+				Object.keys(map).forEach((spaceId) => {
+					client.to(spaceId).emit('events', map[spaceId]);
+				})
+			}, 0);
+			return {event: 'events', data: messages};
 		} catch (e) {
 
 		}
