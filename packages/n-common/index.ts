@@ -8,3 +8,4 @@ export * from './utils/enums';
 export * from './dtos/send-message.dto';
 export * from './decorators/user.decorator';
 export * from './types/event.interface';
+export * from './dtos/list-event.dto';

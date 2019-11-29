@@ -3,6 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from "@nestjs/passport";
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './controllers/app.controller';
+import { ChatController } from "./controllers/chat.controller";
 import { SpaceController } from "./controllers/space.controller";
 import { EventEntity } from "./entities/event.entity";
 import { AppService } from './services/app.service';
@@ -43,7 +44,8 @@ import { UserService } from "./services/user.service";
 	controllers: [
 		AppController,
 		UserController,
-		SpaceController
+		SpaceController,
+		ChatController
 	],
 	providers: [
 		AppService,

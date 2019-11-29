@@ -8,7 +8,6 @@ import {
 import { Server, Socket } from 'socket.io';
 import { ChatService } from "../services/chat.service";
 import { EventService } from "../services/event.service";
-// import { RedisAdapter } from 'socket.io-redis';
 import { SpaceService } from "../services/space.service";
 
 @WebSocketGateway({transports: ['websocket']})
@@ -55,10 +54,6 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayInit, OnGatewa
 	}
 
 	async handleDisconnect(client: Socket) {
-	}
-
-	getUser(client: Socket): any {
-		return this.jwt.decode(client.handshake.query.token) || {};
 	}
 
 	@SubscribeMessage('send-message')

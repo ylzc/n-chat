@@ -37,7 +37,7 @@ export class EventEntity extends BaseEntity {
 	creator: UserEntity;
 
 	@Index()
-	@Column({nullable: false})
+	@Column({nullable: false, unique: true})
 	initId: string;
 
 	@ManyToOne(
