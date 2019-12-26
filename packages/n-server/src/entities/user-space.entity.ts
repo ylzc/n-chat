@@ -5,10 +5,10 @@ import { Column, Entity, Index, PrimaryColumn } from 'typeorm';
 })
 export class UserSpaceEntity {
 
-    @PrimaryColumn()
+    @PrimaryColumn({nullable: false, type: 'uuid'})
     spaceId: string;
 
-    @PrimaryColumn()
+    @PrimaryColumn({nullable: false, type: 'uuid'})
     userId: string;
 
     @Column({default: 0})

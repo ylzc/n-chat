@@ -7,10 +7,11 @@
 		</div>
 		<div>
 			<div>
-				<div v-for="user in model.members" :key="user.id" @click="remove(user)">
+				<div v-for="user in members" :key="user.id" @click="remove(user)">
 					{{user.name}}
 				</div>
 			</div>
+			<button @click="createSpace">ok</button>
 		</div>
 	</div>
 </template>
@@ -24,16 +25,20 @@
     export default class CreateSpace extends Vue {
         users: any[] = [];
         model = new CreateSpaceDto();
+        members: any = {};
 
         remove() {
 
         }
 
         select(user: any) {
-            if (!this.model.members) {
-                this.model.members = [];
-            }
-            this.model.members.push(user);
+            this.$set(this.members, user.id, user);
+        }
+
+        async createSpace() {
+            this.model.name = `Test:Date.now()`;
+            this.model.members = Object.keys(this.members);
+            await axios.post('/space/create', this.model);
         }
 
         async mounted() {

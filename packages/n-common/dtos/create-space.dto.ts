@@ -3,9 +3,9 @@ import { IsArray, IsOptional, IsString } from 'class-validator';
 
 export class CreateSpaceDto {
     constructor(o?: any) {
-        // this.name = o?.name ?? '';
-        // this.members = o?.members ?? [];
-        // this.owner = o?.owner ?? '';
+        this.name = o?.name ?? '';
+        this.members = o?.members ?? [];
+        this.owner = o?.owner ?? '';
     }
 
     @IsString()
