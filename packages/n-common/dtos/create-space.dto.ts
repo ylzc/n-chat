@@ -1,24 +1,25 @@
-import { ApiModelProperty } from "@nestjs/swagger";
 import { Expose } from 'class-transformer';
 import { IsArray, IsOptional, IsString } from 'class-validator';
 
 export class CreateSpaceDto {
+    constructor(o?: any) {
+        // this.name = o?.name ?? '';
+        // this.members = o?.members ?? [];
+        // this.owner = o?.owner ?? '';
+    }
 
-	@ApiModelProperty()
-	@IsString()
-	@Expose()
-	name!: string;
+    @IsString()
+    @Expose()
+    name!: string;
 
-	@ApiModelProperty()
-	@IsString({each: true})
-	@IsArray()
-	@IsOptional()
-	@Expose()
-	members!: string[];
+    @IsString({each: true})
+    @IsArray()
+    @IsOptional()
+    @Expose()
+    members!: string[];
 
-	@ApiModelProperty()
-	@IsString()
-	@Expose()
-	owner!: string;
+    @IsString()
+    @Expose()
+    owner!: string;
 
 }

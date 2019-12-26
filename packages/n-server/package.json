@@ -33,10 +33,12 @@
     "@nestjs/websockets": "^6.7.2",
     "@nestjsx/crud": "^4.2.0",
     "@nestjsx/crud-typeorm": "^4.2.0",
+    "cache-manager": "^2.10.1",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.11.0",
     "dayjs": "^1.8.17",
     "express": "^4.17.1",
+    "fastify-swagger": "^2.5.0",
     "ioredis": "^4.14.1",
     "lodash": "^4.17.15",
     "passport": "^0.4.0",
@@ -73,7 +75,7 @@
     "ts-node": "^8.4.1",
     "tsconfig-paths": "^3.9.0",
     "tslint": "^5.20.0",
-    "typescript": "^3.6.3"
+    "typescript": "^3.7.3"
   },
   "jest": {
     "moduleFileExtensions": [

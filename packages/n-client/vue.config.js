@@ -1,3 +1,5 @@
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
+
 module.exports = {
     transpileDependencies: [],
     pluginOptions: {
@@ -20,11 +22,21 @@ module.exports = {
             '/api/': {
                 changeOrigin: true,
                 pathRewrite: {
-                    "^/api": ""
+                    '^/api': ''
                 },
                 target: 'http://127.0.0.1:3000',
                 ws: true
             }
+        }
+    },
+    parallel: true,
+    configureWebpack: {
+        plugins: [
+            new BundleAnalyzerPlugin()
+        ],
+        externals:{
+            // 'vue': 'Vue',
+            // 'vue-router': 'VueRouter',
         }
     }
 };
