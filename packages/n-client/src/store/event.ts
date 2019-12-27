@@ -9,11 +9,25 @@ import store from './index';
 })
 export class Event extends VuexModule {
 
+    activeId = '';
+
     events: any[] = [];
 
+    eventFilter: Map<string, any> = new Map();
+
     @Mutation
-    init() {
+    changeActiveId(activeId: string) {
+        if (this.activeId !== activeId) {
+            this.events = [];
+            this.eventFilter = new Map();
+            this.activeId = activeId;
+        }
+    }
+
+    @Mutation
+    initEvents() {
         this.events = [];
+        this.eventFilter = new Map();
     }
 
     @Mutation
@@ -23,7 +37,14 @@ export class Event extends VuexModule {
 
     @Mutation
     push(event: any) {
-        this.events.push(event);
+        let ev = this.eventFilter.get(event.initId);
+        if (!ev) {
+            this.eventFilter.set(event.initId, event);
+            this.events.push(event);
+        }
+        else {
+            ev = Object.assign(ev, event);
+        }
     }
 
     @Mutation

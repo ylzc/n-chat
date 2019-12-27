@@ -35,7 +35,14 @@
         message = new SendMessageDto();
         client!: NClient;
         spaces: any[] = [];
-        activeId = '';
+
+        get activeId() {
+            return eventStore.activeId;
+        }
+
+        set activeId(activeId: string) {
+            eventStore.changeActiveId(activeId);
+        }
 
         get events() {
             return eventStore.events;
@@ -43,7 +50,7 @@
 
         async select(space: any) {
             this.activeId = space.id;
-            this.$router.push({name: 'home', query: {id: this.activeId}});
+            this.$router.push({name: 'chat', params: {id: this.activeId}});
         }
 
         async getList() {
@@ -68,7 +75,7 @@
         }
 
         async created() {
-            this.activeId = this.$route.query.id as string;
+            this.activeId = this.$route.params.id as string;
             this.getList();
             this.client = new NClient('ws://172.18.0.127:3000', 'n-chat', eventStore);
         }

@@ -2,14 +2,15 @@ module.exports = {
     presets: [
         '@vue/cli-plugin-babel/preset'
     ],
-    "plugins": [
+    'plugins': [
         [
-            "import",
+            'import',
             {
-                "libraryName": "ant-design-vue",
-                "libraryDirectory": "es",
-                "style": "css"
+                'libraryName': 'ant-design-vue',
+                'libraryDirectory': 'es',
+                'style': 'css'
             }
-        ] // `style: true` for less
+        ],// `style: true` for less,
+        '@babel/plugin-proposal-optional-chaining'
     ]
 };

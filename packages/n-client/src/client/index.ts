@@ -2,6 +2,7 @@ import { SendMessageDto } from '@n-chat/common/es/dtos/send-message.dto';
 import { EventInterface } from '@n-chat/common/types/event.interface';
 import Io from 'socket.io-client';
 import uuid from 'uuid';
+import { Event } from '../store/event';
 
 export class NClient {
 
@@ -16,13 +17,13 @@ export class NClient {
     private status = false;
     private resolve!: any;
     private reject!: any;
-    private events: any;
+    private events!: Event;
     private ready: Promise<any> = new Promise((resolve, reject) => {
         this.resolve = resolve;
         this.reject = reject;
     });
 
-    constructor(server: string, id: string = 'default', events: any) {
+    constructor(server: string, id: string = 'default', events: Event) {
         if (NClient.get(id)) {
             return NClient.get(id);
         }
@@ -75,7 +76,9 @@ export class NClient {
     }
 
     private onIoEvent(event: EventInterface) {
-        this.events.push(event);
+        if (this.events.activeId === event?.space?.id) {
+            this.events.push(event);
+        }
     }
 
     async sendMessage(data: SendMessageDto) {

@@ -36,7 +36,7 @@
         }
 
         async createSpace() {
-            this.model.name = `Test:Date.now()`;
+            this.model.name = `Test:${Date.now()}`;
             this.model.members = Object.keys(this.members);
             await axios.post('/space/create', this.model);
         }
