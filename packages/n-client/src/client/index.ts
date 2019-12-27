@@ -16,19 +16,18 @@ export class NClient {
     private status = false;
     private resolve!: any;
     private reject!: any;
-
-    events: any[] = [];
-
+    private events: any;
     private ready: Promise<any> = new Promise((resolve, reject) => {
         this.resolve = resolve;
         this.reject = reject;
     });
 
-    constructor(server: string, id: string = 'default') {
+    constructor(server: string, id: string = 'default', events: any) {
         if (NClient.get(id)) {
             return NClient.get(id);
         }
         else if (server) {
+            this.events = events;
             this.server = server;
             this.io = Io(
                 'ws://172.18.0.127:3000',
@@ -76,7 +75,6 @@ export class NClient {
     }
 
     private onIoEvent(event: EventInterface) {
-        // console.log(event);
         this.events.push(event);
     }
 

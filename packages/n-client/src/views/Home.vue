@@ -7,8 +7,10 @@
 		</div>
 		<div>
 			<div v-for="ev in events" :key="ev.id" v-html="ev.content"></div>
-			<chat-edit v-model="message.content"/>
-			<button @click="send">ok</button>
+			<div style="position: absolute;bottom: 0;">
+				<chat-edit v-model="message.content"/>
+				<button @click="send">ok</button>
+			</div>
 		</div>
 	</div>
 </template>
@@ -16,6 +18,7 @@
 <script lang="ts">
     import { NClient } from '@/client';
     import ChatEdit from '@/components/ChatEdit.vue';
+    import { eventStore } from '@/store/event';
     import { EventTypes } from '@n-chat/common/es/utils/enums';
     import { CreateSpaceDto } from '@n-chat/common/es/dtos/create-space.dto';
     import { SendMessageDto } from '@n-chat/common/es/dtos/send-message.dto';
@@ -35,12 +38,12 @@
         activeId = '';
 
         get events() {
-            console.log(this.client.events);
-            return this.client.events;
+            return eventStore.events;
         }
 
         async select(space: any) {
             this.activeId = space.id;
+            this.$router.push({name: 'home', query: {id: this.activeId}});
         }
 
         async getList() {
@@ -65,8 +68,9 @@
         }
 
         async created() {
+            this.activeId = this.$route.query.id as string;
             this.getList();
-            this.client = new NClient('ws://172.18.0.127:3000');
+            this.client = new NClient('ws://172.18.0.127:3000', 'n-chat', eventStore);
         }
     }
 </script>
