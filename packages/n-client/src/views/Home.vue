@@ -31,7 +31,6 @@
     })
     export default class HomePage extends Vue {
 
-        createSpaceDto: CreateSpaceDto = new CreateSpaceDto();
         message = new SendMessageDto();
         client!: NClient;
         spaces: any[] = [];
@@ -40,17 +39,13 @@
             return eventStore.activeId;
         }
 
-        set activeId(activeId: string) {
-            eventStore.changeActiveId(activeId);
-        }
-
         get events() {
             return eventStore.events;
         }
 
         async select(space: any) {
-            this.activeId = space.id;
-            this.$router.push({name: 'chat', params: {id: this.activeId}});
+            eventStore.changeChat(space.id);
+            this.$router.push({name: 'chat', params: {id: space.id}});
         }
 
         async getList() {
@@ -75,8 +70,8 @@
         }
 
         async created() {
-            this.activeId = this.$route.params.id as string;
             this.getList();
+            eventStore.changeChat(this.$route.params.id as string);
             this.client = new NClient('ws://172.18.0.127:3000', 'n-chat', eventStore);
         }
     }

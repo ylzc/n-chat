@@ -1,26 +1,27 @@
-import { Expose, Transform } from "class-transformer";
-import { IsBoolean, IsNumber, IsString } from "class-validator";
+import { Expose, Transform } from 'class-transformer';
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class ListEventDto {
 
-	@IsString()
-	@Expose()
-	spaceId!: string;
+    @IsString()
+    @Expose()
+    spaceId!: string;
 
-	@IsNumber()
-	@Transform(value => Number(value))
-	@Expose()
-	timestamp!: number;
+    @IsNumber()
+    @IsOptional()
+    @Transform(value => value ? Number(value) : value)
+    @Expose()
+    eventId!: number;
 
-	@IsNumber()
-	@Transform(value => Number(value))
-	@Expose()
-	step!: number;
+    @IsNumber()
+    @Transform(value => Number(value))
+    @Expose()
+    step!: number;
 
-	@IsBoolean()
-	@Transform(value => Boolean(value))
-	@Expose()
-	type!: boolean;
+    @IsBoolean()
+    @Transform(value => value === 'true')
+    @Expose()
+    type!: boolean;
 
 }
 
