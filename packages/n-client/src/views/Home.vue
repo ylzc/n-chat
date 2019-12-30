@@ -71,8 +71,8 @@
 
         async created() {
             this.getList();
-            eventStore.changeChat(this.$route.params.id as string);
             this.client = new NClient('ws://172.18.0.127:3000', 'n-chat', eventStore);
+            await eventStore.changeChat(this.$route.params.id as string);
         }
     }
 </script>
