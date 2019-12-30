@@ -38,6 +38,9 @@ export class EventService {
             where,
             order: {
                 id: query.type ? 'ASC' : 'DESC'
+            },
+            loadRelationIds: {
+                relations: ['space', 'creator']
             }
         });
     }
