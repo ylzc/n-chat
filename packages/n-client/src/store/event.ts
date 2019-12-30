@@ -67,12 +67,18 @@ export class Event extends VuexModule {
         this.changeActiveId(activeId);
         const {data} = await axios.get('chat/list', {
             params: {
-                spaceId: 'c7d746a7-ecdc-4d49-ac0f-2ea36c7e5bf9',
+                spaceId: this.activeId,
                 step: 20,
                 type: false
             }
         });
         this.rightConcat((data as any[]).reverse());
+        await this.read();
+    }
+
+    @Action({rawError: true})
+    async read() {
+        return await axios.get('/chat/read', {params: {spaceId: this.activeId}});
     }
 
 }

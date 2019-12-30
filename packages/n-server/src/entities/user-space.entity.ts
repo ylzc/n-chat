@@ -1,4 +1,5 @@
-import { Column, Entity, Index, PrimaryColumn } from 'typeorm';
+import { Transform } from 'class-transformer';
+import { Column, Entity, Index, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity({
     name: 'space_members_user'
@@ -16,5 +17,9 @@ export class UserSpaceEntity {
 
     @Column({default: 0})
     eventCount: number;
+
+    @Transform(value => new Date(value).valueOf())
+    @UpdateDateColumn({type: 'timestamptz'})
+    updateTime: number;
 
 }

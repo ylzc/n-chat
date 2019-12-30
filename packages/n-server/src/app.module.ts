@@ -34,7 +34,7 @@ import { UserService } from './services/user.service';
                 EventEntity,
                 UserSpaceEntity
             ],
-            synchronize: true,
+            synchronize: false,
             host: 'localhost',
             port: 5432
             // cache

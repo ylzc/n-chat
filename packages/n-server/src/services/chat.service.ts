@@ -34,6 +34,12 @@ export class ChatService {
         return this.jwt.decode(client.handshake.query.token) || {};
     }
 
+    async read(userId: string, spaceId: string) {
+        return await this.us.update({userId, spaceId}, {
+            eventCount: 0
+        });
+    }
+
     async handleMessage(data: SendMessageDto, client: Socket) {
         if (!data.creatorId) {
             data.creatorId = this.getUser(client).id;

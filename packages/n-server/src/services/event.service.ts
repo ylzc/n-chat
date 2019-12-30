@@ -35,11 +35,24 @@ export class EventService {
         }
         return await this.repo.find({
             take: query.step,
-            // skip: 0,
             where,
             order: {
                 id: query.type ? 'ASC' : 'DESC'
             }
         });
+    }
+
+    async listByQuery(query: ListEventDto) {
+        const sql = this.repo.createQueryBuilder('event')
+            .where('event.space.id = :id', {id: query.spaceId})
+            .loadAllRelationIds({
+                relations: ['space', 'creator']
+            })
+            .orderBy('event.id', query.type ? 'ASC' : 'DESC')
+            .take(query.step);
+        if (query.eventId) {
+            sql.andWhere(`event.id ${query.type ? '>' : '<'} :id`, {id: query.eventId});
+        }
+        return await sql.getMany();
     }
 }
