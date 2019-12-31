@@ -31,6 +31,7 @@
     "webpack-bundle-analyzer": "^3.6.0"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.7.5",
     "@types/lodash": "^4.14.147",
     "@types/socket.io-client": "^1.4.32",
     "@types/uuid": "^3.4.6",
@@ -43,7 +44,6 @@
     "sass-loader": "^8.0.0",
     "typescript": "^3.7.3",
     "vue-cli-plugin-electron-builder": "^1.4.0",
-    "vue-template-compiler": "^2.6.10",
-    "@babel/plugin-proposal-optional-chaining": "^7.7.5"
+    "vue-template-compiler": "^2.6.10"
   }
 }

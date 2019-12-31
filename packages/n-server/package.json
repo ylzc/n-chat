@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@n-chat/common": "0.0.0",
+    "@nestjs/bull": "^0.0.1-beta.4",
     "@nestjs/common": "^6.7.2",
     "@nestjs/core": "^6.7.2",
     "@nestjs/jwt": "^6.1.1",
@@ -33,6 +34,7 @@
     "@nestjs/websockets": "^6.7.2",
     "@nestjsx/crud": "^4.2.0",
     "@nestjsx/crud-typeorm": "^4.2.0",
+    "bull": "^3.12.1",
     "cache-manager": "^2.10.1",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.11.0",
@@ -68,6 +70,7 @@
     "@types/supertest": "^2.0.8",
     "@types/uuid": "^3.4.6",
     "jest": "^24.9.0",
+    "lerna": "^3.18.4",
     "prettier": "^1.18.2",
     "supertest": "^4.0.2",
     "ts-jest": "^24.1.0",
@@ -75,7 +78,8 @@
     "ts-node": "^8.4.1",
     "tsconfig-paths": "^3.9.0",
     "tslint": "^5.20.0",
-    "typescript": "^3.7.3"
+    "typescript": "^3.7.3",
+    "@types/bull": "^3.10.6"
   },
   "jest": {
     "moduleFileExtensions": [

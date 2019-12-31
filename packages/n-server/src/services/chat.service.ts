@@ -8,6 +8,7 @@ import { Repository } from 'typeorm';
 import { EventEntity } from '../entities/event.entity';
 import { UserSpaceEntity } from '../entities/user-space.entity';
 import { EventService } from './event.service';
+import { EventsQueueService } from './events-queue.service';
 import { SpaceService } from './space.service';
 import { HandleMessages, SpaceMessages } from '../types/chat';
 
@@ -24,6 +25,9 @@ export class ChatService {
 
     @InjectRepository(UserSpaceEntity)
     private readonly us: Repository<UserSpaceEntity>;
+
+    @Inject(EventsQueueService)
+    private readonly events: EventsQueueService;
 
     async joinRooms(userId: string, client: Socket) {
         const temp = await this.space.listIdByUser(userId);
@@ -54,6 +58,7 @@ export class ChatService {
                 })
                 .where('spaceId = :spaceId', {spaceId: space.id})
                 .execute();
+            await this.events.sendSpaceStatus();
             return event;
         }
         return null;
